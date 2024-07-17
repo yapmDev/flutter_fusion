@@ -1,14 +1,8 @@
 /// This interface defines a contract for objects that can be copied.
 abstract interface class Copyable {
+
   /// Returns a new instance that is an identical copy of this object.
   Copyable copy();
-
-  /// Returns a new instance that is an identical copy of this object,
-  /// with optional changes applied.
-  ///
-  /// The [changes] parameter specifies values to be updated in the copied instance.
-  /// If [changes] is null or empty, the method should return an exact copy of this object.
-  Copyable copyWith({Map<String, dynamic>? changes});
 }
 
 /// Extension for any list whose items implement the [Copyable] interface.

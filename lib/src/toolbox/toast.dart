@@ -16,6 +16,9 @@ import 'package:flutter/material.dart';
 ///
 /// [textStyle] : can be used to customize the appearance of the message text.
 ///
+/// [position] : the position on the screen where this toast will show up (default is at the
+/// bottom).
+///
 /// See also the [Builder] widget, could be necessary to make sure the most inner context is
 /// provided, specially when you use a specific theme with [ToastTheme].
 void showToast({
@@ -25,11 +28,15 @@ void showToast({
   Duration duration = const Duration(seconds: 2),
   Icon? leadingIcon,
   TextStyle? textStyle,
+  ToastPosition position = ToastPosition.bottom //del
 }) {
   ToastThemeData toastTheme = ToastTheme.of(context);
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
-      bottom: 50.0, left: 0, right: 0,
+      top: position.fromTop,
+      left: position.fromLeft,
+      right: position.fromRight,
+      bottom: position.fromBottom,
       child: Center(
         child: Material(
           color: Colors.transparent,
@@ -143,4 +150,29 @@ extension ToastThemeExtension on ThemeData {
           textStyle: const TextStyle(),
         );
   }
+}
+
+///The possibles positions for the toasts which will be display using [showToast].
+enum ToastPosition{
+  top(fromTop: 50.0, fromLeft: 0.0, fromRight: 0.0),
+  topLeft(fromTop: 50.0, fromLeft: 50.0),
+  topRight(fromTop: 50.0, fromRight: 50.0),
+  left(fromTop: 0.0, fromLeft: 50.0, fromBottom: 0.0),
+  center(fromTop: 0.0, fromLeft: 0.0, fromRight: 0.0, fromBottom: 0.0),
+  right(fromTop: 0.0, fromRight: 50.0, fromBottom: 0.0),
+  bottom(fromBottom: 50.0, fromLeft: 0.0, fromRight: 0.0),
+  bottomLeft(fromBottom: 50.0, fromLeft: 50.0),
+  bottomRight(fromBottom: 50.0, fromRight: 50.0);
+
+  const ToastPosition({
+    this.fromTop,
+    this.fromLeft,
+    this.fromRight,
+    this.fromBottom,
+  });
+
+  final double? fromTop;
+  final double? fromLeft;
+  final double? fromRight;
+  final double? fromBottom;
 }
